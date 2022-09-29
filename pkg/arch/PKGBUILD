@@ -1,16 +1,16 @@
 # Maintainer: Otreblan <otreblain@gmail.com>
 
-pkgname=hello-git
+pkgname=cone-tree-git
 pkgver=v4.0.r34.ga8aa7b3
 pkgrel=1
 epoch=
-pkgdesc="A C++ template"
+pkgdesc="Ray tracing with a cone tree"
 arch=('x86_64')
-url="https://github.com/otreblan/hello"
+url="https://github.com/pf-grupo5/cone-tree"
 license=('GPL3')
 groups=()
 depends=('gcc-libs')
-makedepends=('git' 'asciidoctor' 'cmake' 'bash-completion')
+makedepends=('git' 'cmake' 'bash-completion')
 checkdepends=()
 optdepends=()
 provides=(${pkgname%-git})
