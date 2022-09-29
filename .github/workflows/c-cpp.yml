@@ -42,39 +42,3 @@ jobs:
       with:
         name: ubuntu_package
         path: build/*.deb
-
-  arch-linux:
-    runs-on: ubuntu-latest
-    container: archlinux:base-devel
-
-    steps:
-    - name: Build user
-      run: |
-          USER=ab
-          useradd $USER
-          echo "$USER ALL=(ALL) NOPASSWD: /usr/bin/pacman" >> /etc/sudoers.d/$USER-no-password
-
-    - name: Syu
-      run: |
-          echo "ParallelDownloads = 5" >> /etc/pacman.conf
-          pacman -Syu --noconfirm git
-
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: '0'
-
-    - name: chown
-      run: chown --recursive ab pkg/arch
-
-    - name: makepkg
-      working-directory: ./pkg/arch
-      run: |
-          export MAKEFLAGS=-j$(nproc)
-          export PKGDEST=./
-          export PKGEXT=.pkg.tar.zst
-          sudo -Eu ab makepkg -s --noconfirm
-
-    - uses: actions/upload-artifact@v2
-      with:
-        name: arch_package
-        path: pkg/arch/*.pkg.tar.*

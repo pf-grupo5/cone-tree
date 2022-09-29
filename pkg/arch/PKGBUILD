@@ -1,7 +1,7 @@
 # Maintainer: Otreblan <otreblain@gmail.com>
 
 pkgname=cone-tree-git
-pkgver=v4.0.r34.ga8aa7b3
+pkgver=0.0.0.r0.g4ab68d7
 pkgrel=1
 epoch=
 pkgdesc="Ray tracing with a cone tree"
