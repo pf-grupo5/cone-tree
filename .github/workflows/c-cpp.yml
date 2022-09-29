@@ -1,0 +1,80 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ '*' ]
+  pull_request:
+    branches: [ '*' ]
+
+jobs:
+  ubuntu:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ammaraskar/gcc-problem-matcher@master
+
+    - name: deps
+      run: sudo apt install asciidoctor g++-10 bash-completion
+
+    - name: configure
+      run: cmake
+        -DCMAKE_CXX_COMPILER=g++-10
+        -DCMAKE_C_COMPILER=gcc-10
+        -DCMAKE_CXX_FLAGS="-O2 -pipe -fno-plt -Wall -Wextra"
+        -DCMAKE_C_FLAGS="-O2 -pipe -fno-plt -Wall -Wextra"
+        -DCMAKE_BUILD_TYPE=Release
+        -DCMAKE_INSTALL_PREFIX=/usr
+        -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON
+        -B build
+
+    - name: build
+      run: |
+          export MAKEFLAGS=-j$(nproc)
+          cmake --build build
+
+    - name: deb
+      run: |
+          strip --strip-all $(find build -maxdepth 1 -executable -type f)
+          cmake --build build --target package
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: ubuntu_package
+        path: build/*.deb
+
+  arch-linux:
+    runs-on: ubuntu-latest
+    container: archlinux:base-devel
+
+    steps:
+    - name: Build user
+      run: |
+          USER=ab
+          useradd $USER
+          echo "$USER ALL=(ALL) NOPASSWD: /usr/bin/pacman" >> /etc/sudoers.d/$USER-no-password
+
+    - name: Syu
+      run: |
+          echo "ParallelDownloads = 5" >> /etc/pacman.conf
+          pacman -Syu --noconfirm git
+
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: '0'
+
+    - name: chown
+      run: chown --recursive ab pkg/arch
+
+    - name: makepkg
+      working-directory: ./pkg/arch
+      run: |
+          export MAKEFLAGS=-j$(nproc)
+          export PKGDEST=./
+          export PKGEXT=.pkg.tar.zst
+          sudo -Eu ab makepkg -s --noconfirm
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: arch_package
+        path: pkg/arch/*.pkg.tar.*
