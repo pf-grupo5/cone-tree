@@ -15,7 +15,11 @@ jobs:
     - uses: ammaraskar/gcc-problem-matcher@master
 
     - name: deps
-      run: sudo apt install asciidoctor g++-10 bash-completion
+      run: sudo apt install
+        bash-completion
+        g++-10
+        libfmt-dev
+        libglm-dev
 
     - name: configure
       run: cmake
