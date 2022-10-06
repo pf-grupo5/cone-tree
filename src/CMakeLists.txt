@@ -16,5 +16,7 @@
 
 target_sources(${PROJECT_NAME}
 	PRIVATE
+		hittable_list.cpp
 		main.cpp
+		sphere.cpp
 )

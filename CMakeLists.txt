@@ -44,28 +44,18 @@ find_package(bash-completion)
 add_subdirectory(src) # Sources list
 add_subdirectory(pkg) # Packaging
 
-## Shared libraries
-#pkg_check_modules(shared
-#	REQUIRED IMPORTED_TARGET
-#		libfoo1
-#		libfoo2
-#)
-#
-## Header only libraries
-#pkg_check_modules(header_only
-#	REQUIRED IMPORTED_TARGET
-#		libfoo3
-#		libfoo4
-#)
-#
-## Linking
-#target_link_libraries(${PROJECT_NAME}
-#	PRIVATE
-#		PkgConfig::shared
-#
-#	INTERFACE
-#		PkgConfig::header_only
-#)
+# libraries
+pkg_check_modules(libraries
+	REQUIRED IMPORTED_TARGET
+		fmt
+		glm
+)
+
+# Linking
+target_link_libraries(${PROJECT_NAME}
+	PRIVATE
+		PkgConfig::libraries
+)
 
 # Default flags
 if(UNIX)
