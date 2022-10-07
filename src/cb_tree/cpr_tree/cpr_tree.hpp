@@ -16,8 +16,8 @@
 
 #pragma once
 
-#include "../cone.hpp"
 #include <vector>
+#include "../cone.hpp"
 #include "cpr_tree_batch.hpp"
 
 class cpr_tree

@@ -3,8 +3,8 @@
 #ifndef CONE_TREE_CPR_TREE_BATCH_HPP
 #define CONE_TREE_CPR_TREE_BATCH_HPP
 
-#include "../cone.hpp"
 #include <vector>
+#include "../cone.hpp"
 #include "cpr_tree_active_object.hpp"
 
 struct cpr_tree_batch {
