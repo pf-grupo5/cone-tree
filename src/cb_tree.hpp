@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include "cpr_tree.hpp"
+#include "cpr_tree/cpr_tree.hpp"
 #include "csr_tree.hpp"
 
 class cb_tree

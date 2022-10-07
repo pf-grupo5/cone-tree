@@ -30,7 +30,7 @@ include(FindPkgConfig)
 include(CPack)
 
 # The program itself
-add_executable(${PROJECT_NAME})
+add_executable(${PROJECT_NAME} src/cpr_tree/cone.hpp src/cpr_tree/cpr_tree_node.hpp src/cpr_tree/cpr_tree_branch_node.hpp src/cpr_tree/cpr_tree_active_object.h)
 
 # C++ version
 set_target_properties(${PROJECT_NAME}

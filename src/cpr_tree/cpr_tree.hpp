@@ -16,43 +16,8 @@
 
 #pragma once
 
-#include <vector>
-#include <glm/vec3.hpp>
-
-
-struct cone {
-    glm::vec3 top;
-    glm::vec3 bottom;
-    float radius;
-
-    // TODO: 
-};
-
-
-class cpr_tree_node {
-public:
-    virtual ~cpr_tree_node() noexcept = default;
-};
-
-
-class cpr_tree_active_object : public cpr_tree_node {
-    void* data;
-    ~cpr_tree_active_object() noexcept = default;
-};
-
-
-class cpr_tree_branch_node : public cpr_tree_node {
-private:
-    cone cone;
-    std::vector<cpr_tree_node*> children;
-public:
-    ~cpr_tree_branch_node() noexcept {
-        for (auto child : children) {
-            delete child;
-        }
-    }
-};
-
+#include "cone.hpp"
+#include "cpr_tree_node.hpp"
 
 class cpr_tree
 {
