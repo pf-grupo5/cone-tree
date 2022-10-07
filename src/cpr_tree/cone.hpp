@@ -1,0 +1,6 @@
+
+
+#ifndef CONE_TREE_CONE_HPP
+#define CONE_TREE_CONE_HPP
+
+#endif //CONE_TREE_CONE_HPP
