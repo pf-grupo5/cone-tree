@@ -16,13 +16,14 @@
 
 #pragma once
 
-#include "cone.hpp"
-#include "cpr_tree_node.hpp"
+#include "../cone.hpp"
+#include <vector>
+#include "cpr_tree_batch.hpp"
 
 class cpr_tree
 {
 private:
-    cpr_tree_node* root;
+    std::vector<cpr_tree_batch> children;
 public:
 
 };
