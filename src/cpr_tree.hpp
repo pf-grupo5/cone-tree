@@ -16,6 +16,11 @@
 
 #pragma once
 
+#include <glm/vec3.hpp>
+
 class cpr_tree
 {
+private:
+	glm::vec3 vertex;
+	glm::vec3 direction;
 };

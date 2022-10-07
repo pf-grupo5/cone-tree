@@ -16,6 +16,12 @@
 
 #pragma once
 
+#include "cpr_tree.hpp"
+#include "csr_tree.hpp"
+
 class cb_tree
 {
+private:
+	cpr_tree cpr;
+	csr_tree cst;
 };
