@@ -23,10 +23,12 @@
 
 class cb_tree: public hittable
 {
-	virtual bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const;
-
-	virtual ~cb_tree() = default;
 private:
 	cpr_tree cpr;
 	csr_tree csr;
+
+public:
+	virtual bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const;
+
+	virtual ~cb_tree() = default;
 };

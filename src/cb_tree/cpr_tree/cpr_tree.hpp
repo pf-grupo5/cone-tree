@@ -17,13 +17,18 @@
 #pragma once
 
 #include <vector>
+
 #include "../cone.hpp"
+#include "../../hittable.hpp"
 #include "cpr_tree_batch.hpp"
 
-class cpr_tree
+class cpr_tree: public hittable
 {
 private:
-    std::vector<cpr_tree_batch> children;
-public:
+	std::vector<cpr_tree_batch> children;
 
+public:
+	virtual bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const;
+
+	virtual ~cpr_tree() = default;
 };

@@ -14,10 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with cone-tree.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "cb_tree.hpp"
-#include "cpr_tree/cpr_tree.hpp"
+#include "cpr_tree.hpp"
 
-bool cb_tree::hit(const ray& r, float t_min, float t_max, hit_record& rec) const
+bool cpr_tree::hit(const ray& r, float t_min, float t_max, hit_record& rec) const
 {
-	return cpr.hit(r, t_min, t_max, rec);
+	// TODO
 }

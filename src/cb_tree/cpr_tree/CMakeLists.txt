@@ -16,7 +16,5 @@
 
 target_sources(${PROJECT_NAME}
 	PRIVATE
-		cb_tree.cpp
+		cpr_tree.cpp
 )
-
-add_subdirectory(cpr_tree)
