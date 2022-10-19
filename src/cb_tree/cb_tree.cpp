@@ -14,7 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with cone-tree.  If not, see <http://www.gnu.org/licenses/>.
 
-#pragma once
+#include "cb_tree.hpp"
 
-#include "cb_tree/cb_tree.hpp"
-#include "cb_tree/cone.hpp"
+bool cb_tree::hit(const ray& r, float t_min, float t_max, hit_record& rec) const
+{
+	// TODO
+}

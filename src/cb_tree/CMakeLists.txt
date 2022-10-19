@@ -16,9 +16,5 @@
 
 target_sources(${PROJECT_NAME}
 	PRIVATE
-		hittable_list.cpp
-		main.cpp
-		sphere.cpp
+		cb_tree.cpp
 )
-
-add_subdirectory(cb_tree)

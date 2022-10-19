@@ -16,5 +16,17 @@
 
 #pragma once
 
-#include "cb_tree/cb_tree.hpp"
-#include "cb_tree/cone.hpp"
+#include "../hittable.hpp"
+
+#include "cpr_tree/cpr_tree.hpp"
+#include "csr_tree/csr_tree.hpp"
+
+class cb_tree: public hittable
+{
+	virtual bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const;
+
+	virtual ~cb_tree() = default;
+private:
+	cpr_tree cpr;
+	csr_tree csr;
+};
