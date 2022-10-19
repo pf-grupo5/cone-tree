@@ -25,6 +25,7 @@
 #include <glm/gtx/compatibility.hpp>
 
 #include "camera.hpp"
+#include "cb_tree.hpp"
 #include "hittable.hpp"
 #include "hittable_list.hpp"
 #include "lambertian.hpp"
