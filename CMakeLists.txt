@@ -43,6 +43,7 @@ find_package(bash-completion QUIET)
 
 add_subdirectory(src) # Sources list
 add_subdirectory(pkg) # Packaging
+add_subdirectory(extern) # External libraries
 
 # libraries
 pkg_check_modules(libraries
@@ -55,6 +56,7 @@ pkg_check_modules(libraries
 target_link_libraries(${PROJECT_NAME}
 	PRIVATE
 		PkgConfig::libraries
+		rply
 )
 
 # Default flags
