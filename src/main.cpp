@@ -15,28 +15,24 @@
 // along with cone-tree.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <cmath>
-#include <iostream>
 #include <unistd.h>
 
 #include <fmt/core.h>
 #include <glm/geometric.hpp>
-#include <glm/gtc/random.hpp>
 #include <glm/gtx/compatibility.hpp>
 #include <glm/vec3.hpp>
 
-#include "loader.hpp"
-#include "material/lambertian.hpp"
-#include "material/metal.hpp"
-#include "object/hittable.hpp"
-#include "object/sphere.hpp"
-#include "object/triangle.hpp"
-#include "print.hpp"
+#include "rtx/rtweekend.hpp"
 #include "rtx/camera.hpp"
 #include "rtx/ray.hpp"
-#include "rtx/rtweekend.hpp"
-#include "scene/scene.hpp"
+
 #include "scene/scene_bvh.hpp"
 #include "scene/scene_list.hpp"
+
+#include "loader.hpp"
+#include "print.hpp"
+#include "timer.hpp"
+
 
 glm::vec3 ray_color(const ray& r, const scene& world, int depth)
 {
@@ -70,60 +66,46 @@ int main(int argc, char* argv[])
     }
     bool stdout_tty = isatty(STDOUT_FILENO);
 
-    // Image
-    const float aspect_ratio = 16.f / 9.f;
-    const int image_width = 400;
-    const int image_height = (float)image_width / aspect_ratio;
-    const int samples_per_pixel = 100;
-    const int max_depth = 50;
-
-    auto material_ground = std::make_shared<lambertian>(glm::vec3(0.8f, 0.8f, 0.f));
-    //    auto material_center = std::make_shared<lambertian>(glm::vec3(0.7f, 0.3f, 0.3f));
-    //    auto material_left = std::make_shared<metal>(glm::vec3(0.8f, 0.8f, 0.8f), 0.3f);
-    //    auto material_right = std::make_shared<metal>(glm::vec3(0.8f, 0.6f, 0.2f), 1.f);
-
     // World
     scene_bvh world;
     load_scene(argv[1], world);
     world.freeze();
 
-    //    world.add(std::make_unique<sphere>(glm::vec3(0.f, -100.5f, -1.f), 100.f,
-    //    material_ground)); world.add(std::make_unique<sphere>(glm::vec3(0.f, 0.f, -1.f), 0.5f,
-    //    material_center)); world.add(std::make_unique<sphere>(glm::vec3(-1.f, 0.f, -1.f), 0.5f,
-    //    material_left)); world.add(std::make_unique<sphere>(glm::vec3(1.f, 0.f, -1.f), 0.5f,
-    //    material_right));
-
-    // Camera
-    //    camera cam(viewport_height, viewport_width, focal_length);
+    // Image
+    const float aspect_ratio = 16.f / 9.f;
+    const int image_width = 800;
+    const int image_height = (float)image_width / aspect_ratio;
+    const int samples_per_pixel = 50;
+    const int max_depth = 50;
     camera cam = camera::pointing(glm::vec3(-1.f, 0.f, -2.f), glm::vec3(0.f, 0.f, 0.f),
                                   2 * glm::atan(1.f), aspect_ratio, 1.0f);
 
-    // Render
     fmt::print("P3\n{} {}\n255\n", image_width, image_height);
+
+    std::vector<glm::vec3> image(image_width * image_height);
+    Timer timer;
 
     for (int j = image_height - 1; j >= 0; --j)
     {
-        if (!stdout_tty)
-            fmt::print(stderr, "\rScanlines ramaining: {} ", j);
-
         for (int i = 0; i < image_width; ++i)
         {
-            glm::vec3 pixel_color(0.f);
-
             for (int s = 0; s < samples_per_pixel; ++s)
             {
                 float u = (i + random_float()) / (image_width - 1);
                 float v = (j + random_float()) / (image_height - 1);
                 ray r = cam.get_ray(u, v);
-                const auto color = ray_color(r, world, max_depth);
-                pixel_color += color;
+                image[i + j * image_width] += ray_color(r, world, max_depth);
             }
-            fmt::print("{}\n", sampled_color(pixel_color, samples_per_pixel));
         }
     }
 
-    if (!stdout_tty)
-        fmt::print(stderr, "\n");
+    double t = timer.elapsed();
+    fmt::print(stderr, "Elapsed time: {}s\n", t);
+    for (int j = image_height - 1; j >= 0; --j) {
+        for (int i = 0; i < image_width; ++i) {
+            fmt::print("{}\n", sampled_color(image[i + j * image_width], samples_per_pixel));
+        }
+    }
 
     return EXIT_SUCCESS;
 }

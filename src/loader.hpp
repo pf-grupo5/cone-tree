@@ -6,6 +6,7 @@
 #include <sstream>
 #include <string_view>
 #include <vector>
+#include <iostream>
 
 #include "material/lambertian.hpp"
 #include "material/material.hpp"
