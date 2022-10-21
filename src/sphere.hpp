@@ -25,14 +25,13 @@ public:
     float radius;
     std::shared_ptr<material> mat_ptr;
 
-    sphere(){};
-    sphere(glm::vec3 center, float radius, std::shared_ptr<material> m)
-        : center(std::move(center)), radius(std::move(radius)), mat_ptr(std::move(m)){};
+    sphere() = default;
+    sphere(const glm::vec3& center, float radius, std::shared_ptr<material> m)
+        : center(center), radius(radius), mat_ptr(std::move(m)){};
 
     bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const override;
-
     [[nodiscard]] glm::vec3 centroid() const override;
     [[nodiscard]] AABB bounding_box() const override;
 
-    virtual ~sphere() = default;
+    ~sphere() override = default;
 };

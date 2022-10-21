@@ -29,7 +29,7 @@ class hittable_bvh : public scene
 public:
     bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const override;
     void add(std::unique_ptr<hittable>&& object) override;
-    void build() override;
+    void freeze() override;
     void clear() override;
 
     ~hittable_bvh() override = default;

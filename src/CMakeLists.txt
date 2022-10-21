@@ -20,5 +20,6 @@ target_sources(${PROJECT_NAME}
 		sphere.cpp
 		hittable_list.cpp
 	    hittable_bvh.cpp
+	    camera.cpp
 )
 

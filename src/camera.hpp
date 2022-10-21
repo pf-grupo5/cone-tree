@@ -17,28 +17,27 @@
 #pragma once
 
 #include <fmt/format.h>
-#include <glm/vec3.hpp>
+#include <glm/glm.hpp>
 
 #include "ray.hpp"
 
-class camera
+struct camera
 {
-private:
-    glm::vec3 origin;
-    glm::vec3 horizontal;
-    glm::vec3 vertical;
-    glm::vec3 lower_left_corner;
+    glm::mat4 unit_basis;
+    glm::mat4 scale;
+    glm::mat4 scaled_basis;
+    glm::vec4 position;
 
-public:
-    camera(float viewport_height, float viewport_width, float focal_length = 1.f)
-        : origin(0.f, 0.f, 0.f), horizontal(viewport_width, 0.f, 0.f),
-          vertical(0.f, viewport_height, 0.f),
-          lower_left_corner(origin - horizontal / 2.f - vertical / 2.f -
-                            glm::vec3(0.f, 0.f, focal_length)){};
+    camera() = default;
+    camera(const glm::vec3& pos_, const glm::vec3& dir_, float v_fov_, float aspect_, float dist_);
+    static camera pointing(const glm::vec3& from, const glm::vec3& to, float v_fov, float aspect,
+                           float dist);
 
     ray get_ray(float u, float v) const
     {
-        return {origin, lower_left_corner + u * horizontal + v * vertical - origin};
+        glm::vec4 vp_point =
+            this->position + this->scaled_basis * glm::vec4(u - 0.5, v - 0.5, -1.0, 1.0);
+        return ray(this->position, glm::normalize(glm::vec3(vp_point - this->position)));
     }
 };
 

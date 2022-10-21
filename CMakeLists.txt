@@ -39,7 +39,7 @@ set_target_properties(${PROJECT_NAME}
 )
 
 # Packages
-find_package(bash-completion)
+find_package(bash-completion QUIET)
 
 add_subdirectory(src) # Sources list
 add_subdirectory(pkg) # Packaging
@@ -71,6 +71,11 @@ endif()
 file(WRITE ${CMAKE_BINARY_DIR}/bash-completion/${PROJECT_NAME}
 	"complete -F _longopt ${PROJECT_NAME}"
 )
+
+
+include(CheckIPOSupported)
+check_ipo_supported(RESULT LTO_SUPPORTED OUTPUT error)
+set_property(TARGET ${PROJECT_NAME} PROPERTY INTERPROCEDURAL_OPTIMIZATION ${LTO_SUPPORTED})
 
 install(FILES
 	${CMAKE_BINARY_DIR}/bash-completion/${PROJECT_NAME}

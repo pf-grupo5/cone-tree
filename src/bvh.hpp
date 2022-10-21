@@ -117,8 +117,8 @@ public:
             }
             const BVHNode* child1 = &bvhNode[node->leftFirst];
             const BVHNode* child2 = &bvhNode[node->leftFirst + 1];
-            float dist1 = child1->aabb.intersection_time(ray, hit);
-            float dist2 = child2->aabb.intersection_time(ray, hit);
+            float dist1 = child1->aabb.intersection_time(ray, hit.t);
+            float dist2 = child2->aabb.intersection_time(ray, hit.t);
             if (dist1 > dist2)
             {
                 std::swap(dist1, dist2);

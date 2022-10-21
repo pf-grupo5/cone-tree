@@ -20,6 +20,6 @@ bool hittable_bvh::hit(const ray& r, float t_min, float t_max, hit_record& rec) 
 {
     return bvh.hit(r, t_min, t_max, rec);
 }
-void hittable_bvh::build() { bvh.build(); }
+void hittable_bvh::freeze() { bvh.build(); }
 void hittable_bvh::add(std::unique_ptr<hittable>&& object) { bvh.add(std::move(object)); }
 void hittable_bvh::clear() { bvh.clear(); }

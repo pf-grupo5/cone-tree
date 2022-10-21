@@ -29,12 +29,14 @@
 #include "hittable_bvh.hpp"
 #include "hittable_list.hpp"
 #include "lambertian.hpp"
+#include "loader.hpp"
 #include "metal.hpp"
 #include "print.hpp"
 #include "ray.hpp"
 #include "rtweekend.hpp"
 #include "scene.hpp"
 #include "sphere.hpp"
+#include "triangle.h"
 
 glm::vec3 ray_color(const ray& r, const scene& world, int depth)
 {
@@ -59,8 +61,13 @@ glm::vec3 ray_color(const ray& r, const scene& world, int depth)
     return glm::lerp(glm::vec3(1.f, 1.f, 1.f), glm::vec3(0.5f, 0.7f, 1.f), t);
 }
 
-int main()
+int main(int argc, char* argv[])
 {
+    if (argc < 2)
+    {
+        fmt::print(stderr, "Usage: {} <scene.sce>", argv[0]);
+        return 1;
+    }
     bool stdout_tty = isatty(STDOUT_FILENO);
 
     // Image
@@ -71,23 +78,25 @@ int main()
     const int max_depth = 50;
 
     auto material_ground = std::make_shared<lambertian>(glm::vec3(0.8f, 0.8f, 0.f));
-    auto material_center = std::make_shared<lambertian>(glm::vec3(0.7f, 0.3f, 0.3f));
-    auto material_left = std::make_shared<metal>(glm::vec3(0.8f, 0.8f, 0.8f), 0.3f);
-    auto material_right = std::make_shared<metal>(glm::vec3(0.8f, 0.6f, 0.2f), 1.f);
+    //    auto material_center = std::make_shared<lambertian>(glm::vec3(0.7f, 0.3f, 0.3f));
+    //    auto material_left = std::make_shared<metal>(glm::vec3(0.8f, 0.8f, 0.8f), 0.3f);
+    //    auto material_right = std::make_shared<metal>(glm::vec3(0.8f, 0.6f, 0.2f), 1.f);
 
     // World
-    hittable_list world;
-    world.add(std::make_unique<sphere>(glm::vec3(0.f, -100.5f, -1.f), 100.f, material_ground));
-    world.add(std::make_unique<sphere>(glm::vec3(0.f, 0.f, -1.f), 0.5f, material_center));
-    world.add(std::make_unique<sphere>(glm::vec3(-1.f, 0.f, -1.f), 0.5f, material_left));
-    world.add(std::make_unique<sphere>(glm::vec3(1.f, 0.f, -1.f), 0.5f, material_right));
-    world.build();
+    hittable_bvh world;
+    load_scene(argv[1], world);
+    world.freeze();
+
+    //    world.add(std::make_unique<sphere>(glm::vec3(0.f, -100.5f, -1.f), 100.f,
+    //    material_ground)); world.add(std::make_unique<sphere>(glm::vec3(0.f, 0.f, -1.f), 0.5f,
+    //    material_center)); world.add(std::make_unique<sphere>(glm::vec3(-1.f, 0.f, -1.f), 0.5f,
+    //    material_left)); world.add(std::make_unique<sphere>(glm::vec3(1.f, 0.f, -1.f), 0.5f,
+    //    material_right));
 
     // Camera
-    float viewport_height = 2.f;
-    float viewport_width = aspect_ratio * viewport_height;
-    float focal_length = 1.f;
-    camera cam(viewport_height, viewport_width, focal_length);
+    //    camera cam(viewport_height, viewport_width, focal_length);
+    camera cam = camera::pointing(glm::vec3(-1.f, 0.f, -2.f), glm::vec3(0.f, 0.f, 0.f),
+                                  2 * glm::atan(1.f), aspect_ratio, 1.0f);
 
     // Render
     fmt::print("P3\n{} {}\n255\n", image_width, image_height);

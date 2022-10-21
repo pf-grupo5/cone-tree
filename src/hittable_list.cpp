@@ -40,7 +40,7 @@ void hittable_list::add(std::unique_ptr<hittable>&& object)
     objects.push_back(std::move(object));
 }
 
-void hittable_list::build() {}
+void hittable_list::freeze() {}
 void hittable_list::clear() { objects.clear(); }
 
 // glm::vec3 hittable_list::centroid() const
