@@ -14,9 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with cone-tree.  If not, see <http://www.gnu.org/licenses/>.
 
-
-#ifndef CONE_TREE_HITTABLE_BVH_H
-#define CONE_TREE_HITTABLE_BVH_H
+#pragma once
 
 #include <concepts>
 #include <memory>
@@ -24,31 +22,19 @@
 
 #include "bvh.hpp"
 #include "hittable.hpp"
+#include "scene.hpp"
 
-class hittable_bvh : public hittable
+class hittable_bvh : public scene
 {
 public:
-    hittable_bvh() = default;
-    virtual ~hittable_bvh() override = default;
+    bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const override;
+    void add(std::unique_ptr<hittable>&& object) override;
+    void build() override;
+    void clear() override;
 
-    void clear() { bvh.clear(); }
-
-    template <class T, typename... Args>
-    requires(std::derived_from<T, hittable>) void add(Args&&... args)
-    {
-        bvh.add<T>(std::forward<Args>(args)...);
-    }
-
-    void construct() { bvh.build(); }
-
-    virtual bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const override;
-
-    virtual glm::vec3 centroid() const override;
-
-    virtual AABB bounding_box() const override;
+    ~hittable_bvh() override = default;
 
 private:
     BVH bvh;
 };
 
-#endif // CONE_TREE_HITTABLE_BVH_H

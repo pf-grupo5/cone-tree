@@ -35,26 +35,34 @@ bool hittable_list::hit(const ray& r, float t_min, float t_max, hit_record& rec)
     return hit_anything;
 }
 
-glm::vec3 hittable_list::centroid() const
+void hittable_list::add(std::unique_ptr<hittable>&& object)
 {
-    glm::vec3 result(0.f);
-    for (const auto& object : objects)
-    {
-        if (object)
-        {
-            result += object->centroid();
-        }
-    }
-    return result / (float)objects.size();
+    objects.push_back(std::move(object));
 }
 
-AABB hittable_list::bounding_box() const
-{
-    AABB output{glm::vec3(HUGE_VALF), -glm::vec3(HUGE_VALF)};
-    for (const auto& object : objects)
-    {
-        output.min = glm::min(output.min, object->bounding_box().min);
-        output.max = glm::max(output.max, object->bounding_box().max);
-    }
-    return output;
-}
+void hittable_list::build() {}
+void hittable_list::clear() { objects.clear(); }
+
+// glm::vec3 hittable_list::centroid() const
+//{
+//     glm::vec3 result(0.f);
+//     for (const auto& object : objects)
+//     {
+//         if (object)
+//         {
+//             result += object->centroid();
+//         }
+//     }
+//     return result / (float)objects.size();
+// }
+
+// AABB hittable_list::bounding_box() const
+//{
+//     AABB output{glm::vec3(HUGE_VALF), -glm::vec3(HUGE_VALF)};
+//     for (const auto& object : objects)
+//     {
+//         output.min = glm::min(output.min, object->bounding_box().min);
+//         output.max = glm::max(output.max, object->bounding_box().max);
+//     }
+//     return output;
+// }

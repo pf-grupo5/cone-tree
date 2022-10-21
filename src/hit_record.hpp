@@ -14,9 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with cone-tree.  If not, see <http://www.gnu.org/licenses/>.
 
-
-#ifndef CONE_TREE_HIT_RECORD_H
-#define CONE_TREE_HIT_RECORD_H
+#pragma once
 
 #include <glm/glm.hpp>
 #include <memory>
@@ -32,4 +30,3 @@ struct hit_record
     bool front_face;
 };
 
-#endif // CONE_TREE_HIT_RECORD_H

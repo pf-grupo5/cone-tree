@@ -30,3 +30,6 @@ public:
     virtual AABB bounding_box() const = 0;
     virtual ~hittable() = default;
 };
+
+template <class T>
+concept Hittable = std::derived_from<T, hittable>;

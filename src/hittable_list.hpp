@@ -21,27 +21,18 @@
 #include <vector>
 
 #include "hittable.hpp"
+#include "scene.hpp"
 
-class hittable_list : public hittable
+class hittable_list : public scene
 {
 public:
-    hittable_list(){};
-    virtual ~hittable_list() = default;
-
-    void clear() { objects.clear(); }
-
-    template <class T, typename... Args>
-        requires(std::derived_from<T, hittable>)
-    void add(Args&&... args)
-    {
-        objects.emplace_back(std::make_unique<T>(std::forward<Args>(args)...));
-    }
-
     bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const override;
+    void add(std::unique_ptr<hittable>&& object) override;
+    void build() override;
+    void clear() override;
 
-    [[nodiscard]] glm::vec3 centroid() const override;
+    ~hittable_list() override = default;
 
-    [[nodiscard]] AABB bounding_box() const override;
-
+private:
     std::vector<std::unique_ptr<hittable>> objects;
 };

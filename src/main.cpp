@@ -29,14 +29,14 @@
 #include "hittable_bvh.hpp"
 #include "hittable_list.hpp"
 #include "lambertian.hpp"
-#include "material.hpp"
 #include "metal.hpp"
 #include "print.hpp"
 #include "ray.hpp"
 #include "rtweekend.hpp"
 #include "sphere.hpp"
+#include "scene.hpp"
 
-glm::vec3 ray_color(const ray& r, const hittable& world, int depth)
+glm::vec3 ray_color(const ray& r, const scene& world, int depth)
 {
     hit_record rec;
 
@@ -54,7 +54,6 @@ glm::vec3 ray_color(const ray& r, const hittable& world, int depth)
         return glm::vec3(0.f);
     }
 
-    // Background
     glm::vec3 unit_direction = glm::normalize(r.direction);
     float t = 0.5f * (unit_direction.y + 1.f);
     return glm::lerp(glm::vec3(1.f, 1.f, 1.f), glm::vec3(0.5f, 0.7f, 1.f), t);
@@ -77,12 +76,12 @@ int main()
     auto material_right = std::make_shared<metal>(glm::vec3(0.8f, 0.6f, 0.2f), 1.f);
 
     // World
-    hittable_bvh world;
-    world.add<sphere>(glm::vec3(0.f, -100.5f, -1.f), 100.f, material_ground);
-    world.add<sphere>(glm::vec3(0.f, 0.f, -1.f), 0.5f, material_center);
-    world.add<sphere>(glm::vec3(-1.f, 0.f, -1.f), 0.5f, material_left);
-    world.add<sphere>(glm::vec3(1.f, 0.f, -1.f), 0.5f, material_right);
-    world.construct();
+    hittable_list world;
+    world.add(std::make_unique<sphere>(glm::vec3(0.f, -100.5f, -1.f), 100.f, material_ground));
+    world.add(std::make_unique<sphere>(glm::vec3(0.f, 0.f, -1.f), 0.5f, material_center));
+    world.add(std::make_unique<sphere>(glm::vec3(-1.f, 0.f, -1.f), 0.5f, material_left));
+    world.add(std::make_unique<sphere>(glm::vec3(1.f, 0.f, -1.f), 0.5f, material_right));
+    world.build();
 
     // Camera
     float viewport_height = 2.f;

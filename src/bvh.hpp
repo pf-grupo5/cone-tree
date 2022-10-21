@@ -14,9 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with cone-tree.  If not, see <http://www.gnu.org/licenses/>.
 
-
-#ifndef UNTITLED31_BVH_H
-#define UNTITLED31_BVH_H
+#pragma once
 
 #include "aabb.hpp"
 #include "hittable.hpp"
@@ -51,11 +49,7 @@ private:
     int nodesUsed = 1;
 
 public:
-    template <class T, typename... Args>
-    requires(std::derived_from<T, hittable>) void add(Args&&... args)
-    {
-        objects.emplace_back(std::make_unique<T>(std::forward<Args>(args)...));
-    }
+    void add(std::unique_ptr<hittable>&& object) { objects.push_back(std::move(object)); }
     void build() noexcept
     {
         auto n = (int)objects.size();
@@ -95,10 +89,6 @@ public:
     }
     bool hit(const ray& ray, float min_time, float max_time, hit_record& hit) const
     {
-        //        if (!bvhNode || !triIdx) {
-        //            throw std::runtime_error("AAAA! Call Build!");
-        //        }
-
         const BVHNode *node = &bvhNode[0], *stack[64];
         int stackPtr = 0;
         bool hitSomething = false;
@@ -262,5 +252,3 @@ private:
         return cost > 0 ? cost : 1e30f;
     }
 };
-
-#endif // UNTITLED31_BVH_H
