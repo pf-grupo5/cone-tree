@@ -18,24 +18,23 @@
 
 #include "hittable.hpp"
 
-class sphere: public hittable
+class sphere : public hittable
 {
 public:
-	glm::vec3 center;
-	float radius;
-	std::shared_ptr<material> mat_ptr;
+    glm::vec3 center;
+    float radius;
+    std::shared_ptr<material> mat_ptr;
 
-	sphere(){};
-	sphere(glm::vec3 center, float radius, std::shared_ptr<material> m):
-		center(std::move(center)),
-		radius(std::move(radius)),
-		mat_ptr(std::move(m))
-	{};
+    sphere(){};
+    sphere(glm::vec3 center, float radius, std::shared_ptr<material> m)
+        : center(std::move(center)), radius(std::move(radius)),
+          mat_ptr(std::move(m)){};
 
-	bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const override;
+    bool hit(const ray& r, float t_min, float t_max,
+             hit_record& rec) const override;
 
     [[nodiscard]] glm::vec3 centroid() const override;
     [[nodiscard]] AABB bounding_box() const override;
 
-	virtual ~sphere() = default;
+    virtual ~sphere() = default;
 };

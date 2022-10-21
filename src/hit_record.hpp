@@ -17,5 +17,4 @@ struct hit_record
     bool front_face;
 };
 
-
-#endif //CONE_TREE_HIT_RECORD_H
+#endif // CONE_TREE_HIT_RECORD_H

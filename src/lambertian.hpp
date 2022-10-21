@@ -23,31 +23,25 @@
 
 #include <glm/vec3.hpp>
 
-class lambertian: public material
+class lambertian : public material
 {
 public:
-	glm::vec3 albedo;
+    glm::vec3 albedo;
 
-	lambertian(glm::vec3 albedo):
-		albedo(albedo)
-	{};
+    lambertian(glm::vec3 albedo) : albedo(albedo){};
 
-	virtual bool scatter(
-		const ray&,
-		const hit_record& rec,
-		glm::vec3& attenutation,
-		ray& scattered
-	) const override
-	{
-		glm::vec3 scatter_direction = rec.normal + glm::sphericalRand(1.f);
+    virtual bool scatter(const ray&, const hit_record& rec,
+                         glm::vec3& attenutation, ray& scattered) const override
+    {
+        glm::vec3 scatter_direction = rec.normal + glm::sphericalRand(1.f);
 
-		// Catch degenerate scatter direction
-		if(near_zero(scatter_direction))
-			scatter_direction = rec.normal;
+        // Catch degenerate scatter direction
+        if (near_zero(scatter_direction))
+            scatter_direction = rec.normal;
 
-		scattered = ray(rec.p, scatter_direction);
-		attenutation = albedo;
+        scattered = ray(rec.p, scatter_direction);
+        attenutation = albedo;
 
-		return true;
-	}
+        return true;
+    }
 };

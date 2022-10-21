@@ -23,40 +23,29 @@
 
 #include "camera.hpp"
 
-template<>
-struct fmt::formatter<glm::vec3>: fmt::formatter<int>
+template <>
+struct fmt::formatter<glm::vec3> : fmt::formatter<int>
 {
-	template <typename FormatContext>
-	auto format(const glm::vec3& v, FormatContext& ctx)
-	{
-		return format_to(ctx.out(),
-			"{} {} {}",
-			(int)(255.999f*v.x),
-			(int)(255.999f*v.y),
-			(int)(255.999f*v.z)
-		);
-	}
+    template <typename FormatContext>
+    auto format(const glm::vec3& v, FormatContext& ctx)
+    {
+        return format_to(ctx.out(), "{} {} {}", (int)(255.999f * v.x),
+                         (int)(255.999f * v.y), (int)(255.999f * v.z));
+    }
 };
 
-template<>
-struct fmt::formatter<sampled_color>: fmt::formatter<int>
+template <>
+struct fmt::formatter<sampled_color> : fmt::formatter<int>
 {
-	template <typename FormatContext>
-	auto format(const sampled_color& c, FormatContext& ctx)
-	{
-		float scale = 1.f/c.samples_per_pixel;
+    template <typename FormatContext>
+    auto format(const sampled_color& c, FormatContext& ctx)
+    {
+        float scale = 1.f / c.samples_per_pixel;
 
-		auto color = glm::clamp(
-			glm::sqrt(c.pixel_color*scale),
-			{0.f, 0.f, 0.f},
-			{0.999f, 0.999f, 0.999f}
-		);
+        auto color = glm::clamp(glm::sqrt(c.pixel_color * scale),
+                                {0.f, 0.f, 0.f}, {0.999f, 0.999f, 0.999f});
 
-		return format_to(ctx.out(),
-			"{} {} {}",
-			(int)(256*color.x),
-			(int)(256*color.y),
-			(int)(256*color.z)
-		);
-	}
+        return format_to(ctx.out(), "{} {} {}", (int)(256 * color.x),
+                         (int)(256 * color.y), (int)(256 * color.z));
+    }
 };

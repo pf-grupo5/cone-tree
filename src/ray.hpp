@@ -22,17 +22,12 @@
 
 struct ray
 {
-	ray(){};
-	ray(glm::vec3 origin, glm::vec3 direction):
-		origin(std::move(origin)),
-		direction(std::move(direction))
-	{};
+    ray(){};
+    ray(glm::vec3 origin, glm::vec3 direction)
+        : origin(std::move(origin)), direction(std::move(direction)){};
 
-	glm::vec3 at(float t) const
-	{
-		return origin + t*direction;
-	}
+    glm::vec3 at(float t) const { return origin + t * direction; }
 
-	glm::vec3 origin;
-	glm::vec3 direction;
+    glm::vec3 origin;
+    glm::vec3 direction;
 };

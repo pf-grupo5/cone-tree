@@ -16,33 +16,30 @@
 
 #pragma once
 
+#include <concepts>
 #include <memory>
 #include <vector>
-#include <concepts>
 
 #include "hittable.hpp"
 
-class hittable_list: public hittable
+class hittable_list : public hittable
 {
 public:
-	hittable_list(){};
-	virtual ~hittable_list() = default;
+    hittable_list(){};
+    virtual ~hittable_list() = default;
 
-	void clear()
-	{
-		objects.clear();
-	}
+    void clear() { objects.clear(); }
 
-	template<class T, typename... Args>
-		requires(std::derived_from<T, hittable>)
-	void add(Args&&... args)
-	{
-		objects.emplace_back(std::make_unique<T>(std::forward<Args>(args)...));
-	}
+    template <class T, typename... Args>
+    requires(std::derived_from<T, hittable>) void add(Args&&... args)
+    {
+        objects.emplace_back(std::make_unique<T>(std::forward<Args>(args)...));
+    }
 
-    virtual bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const override;
+    virtual bool hit(const ray& r, float t_min, float t_max,
+                     hit_record& rec) const override;
     virtual glm::vec3 centroid() const override;
     virtual AABB bounding_box() const override;
 
-	std::vector<std::unique_ptr<hittable>> objects;
+    std::vector<std::unique_ptr<hittable>> objects;
 };
