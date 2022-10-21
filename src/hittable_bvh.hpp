@@ -37,4 +37,3 @@ public:
 private:
     BVH bvh;
 };
-

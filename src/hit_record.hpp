@@ -29,4 +29,3 @@ struct hit_record
     float t = HUGE_VALF;
     bool front_face;
 };
-

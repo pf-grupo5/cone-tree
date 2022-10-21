@@ -33,8 +33,8 @@
 #include "print.hpp"
 #include "ray.hpp"
 #include "rtweekend.hpp"
-#include "sphere.hpp"
 #include "scene.hpp"
+#include "sphere.hpp"
 
 glm::vec3 ray_color(const ray& r, const scene& world, int depth)
 {
