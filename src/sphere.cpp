@@ -55,3 +55,11 @@ bool sphere::hit(const ray& r, float t_min, float t_max, hit_record& rec) const
 
 	return true;
 }
+
+AABB sphere::bounding_box () const {
+    return AABB{center - glm::vec3(radius), center + glm::vec3(radius)};
+}
+
+glm::vec3 sphere::centroid () const {
+    return center;
+}

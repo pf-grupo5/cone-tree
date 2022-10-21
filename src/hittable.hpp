@@ -17,26 +17,16 @@
 #pragma once
 
 #include <memory>
-
 #include <glm/geometric.hpp>
-
 #include "ray.hpp"
-
-class material;
-
-struct hit_record
-{
-	glm::vec3 p;
-	glm::vec3 normal;
-	std::shared_ptr<material> mat_ptr;
-	float t;
-	bool front_face;
-};
+#include "aabb.hpp"
+#include "hit_record.hpp"
 
 class hittable
 {
 public:
 	virtual bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const = 0;
-
+    virtual glm::vec3 centroid() const = 0;
+    virtual AABB bounding_box() const = 0;
 	virtual ~hittable() = default;
 };

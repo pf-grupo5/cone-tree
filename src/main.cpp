@@ -25,9 +25,9 @@
 #include <glm/gtx/compatibility.hpp>
 
 #include "camera.hpp"
-#include "cb_tree.hpp"
 #include "hittable.hpp"
 #include "hittable_list.hpp"
+#include "hittable_bvh.hpp"
 #include "lambertian.hpp"
 #include "material.hpp"
 #include "metal.hpp"
@@ -67,22 +67,22 @@ int main()
 	// Image
 	const float aspect_ratio = 16.f/9.f;
 	const int image_width = 400;
-	const int image_height = image_width/aspect_ratio;
+	const int image_height = (float) image_width / aspect_ratio;
 	const int samples_per_pixel = 100;
 	const int max_depth = 50;
 
+    auto material_ground = std::make_shared<lambertian>(glm::vec3(0.8f, 0.8f, 0.f));
+    auto material_center = std::make_shared<lambertian>(glm::vec3(0.7f, 0.3f, 0.3f));
+    auto material_left = std::make_shared<metal>(glm::vec3(0.8f, 0.8f, 0.8f), 0.3f);
+    auto material_right = std::make_shared<metal>(glm::vec3(0.8f, 0.6f, 0.2f), 1.f);
+
 	// World
-	hittable_list world;
-
-	auto material_ground = std::make_shared<lambertian>(glm::vec3(0.8f, 0.8f, 0.f));
-	auto material_center = std::make_shared<lambertian>(glm::vec3(0.7f, 0.3f, 0.3f));
-	auto material_left = std::make_shared<metal>(glm::vec3(0.8f, 0.8f, 0.8f), 0.3f);
-	auto material_right = std::make_shared<metal>(glm::vec3(0.8f, 0.6f, 0.2f), 1.f);
-
+	hittable_bvh world;
 	world.add<sphere>(glm::vec3(0.f,  -100.5f, -1.f), 100.f, material_ground);
 	world.add<sphere>(glm::vec3(0.f,  0.f,     -1.f), 0.5f, material_center);
 	world.add<sphere>(glm::vec3(-1.f, 0.f,     -1.f), 0.5f, material_left);
 	world.add<sphere>(glm::vec3(1.f,  0.f,     -1.f), 0.5f, material_right);
+    world.construct();
 
 	// Camera
 	float viewport_height = 2.f;
@@ -92,6 +92,7 @@ int main()
 
 	// Render
 	fmt::print("P3\n{} {}\n255\n", image_width, image_height);
+
 
 	for (int j = image_height-1; j >= 0; --j)
 	{
@@ -107,9 +108,9 @@ int main()
 				float u = (i+random_float())/(image_width-1);
 				float v = (j+random_float())/(image_height-1);
 				ray r = cam.get_ray(u, v);
-				pixel_color += ray_color(r, world, max_depth);
+                const auto color = ray_color(r, world, max_depth);
+				pixel_color += color;
 			}
-
 			fmt::print("{}\n", sampled_color(pixel_color, samples_per_pixel));
 		}
 	}
