@@ -5,7 +5,7 @@
 * `bash-completion`
 * `cmake`
 * `libfmt-dev`
-* `libgml-dev`
+* `libglm-dev`
 
 ## Build
 ``` bash
