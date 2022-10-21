@@ -36,8 +36,7 @@ public:
         objects.emplace_back(std::make_unique<T>(std::forward<Args>(args)...));
     }
 
-    virtual bool hit(const ray& r, float t_min, float t_max,
-                     hit_record& rec) const override;
+    virtual bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const override;
     virtual glm::vec3 centroid() const override;
     virtual AABB bounding_box() const override;
 

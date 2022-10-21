@@ -29,20 +29,13 @@ inline float random_float()
     return distribution(generator);
 }
 
-inline float random_float(float _min, float _max)
-{
-    return std::lerp(_min, _max, random_float());
-}
+inline float random_float(float _min, float _max) { return std::lerp(_min, _max, random_float()); }
 
-inline glm::vec3 random_vec3()
-{
-    return {random_float(), random_float(), random_float()};
-}
+inline glm::vec3 random_vec3() { return {random_float(), random_float(), random_float()}; }
 
 inline glm::vec3 random_vec3(float _min, float _max)
 {
-    return {random_float(_min, _max), random_float(_min, _max),
-            random_float(_min, _max)};
+    return {random_float(_min, _max), random_float(_min, _max), random_float(_min, _max)};
 }
 
 inline glm::vec3 random_in_hemisphere(const glm::vec3& normal)

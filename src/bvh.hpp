@@ -78,8 +78,7 @@ public:
         triIdx.reset();
         nodesUsed = 1;
     }
-    bool hit(const ray& ray, float min_time, float max_time,
-             hit_record& hit) const
+    bool hit(const ray& ray, float min_time, float max_time, hit_record& hit) const
     {
         //        if (!bvhNode || !triIdx) {
         //            throw std::runtime_error("AAAA! Call Build!");
@@ -98,8 +97,7 @@ public:
                     hit_record temp_hit;
                     const auto object_idx = triIdx[node->leftFirst + i];
                     const auto& object = objects[object_idx];
-                    if (object &&
-                        object->hit(ray, min_time, max_time, temp_hit))
+                    if (object && object->hit(ray, min_time, max_time, temp_hit))
                     {
                         hit = temp_hit;
                         hitSomething = true;
@@ -203,8 +201,7 @@ private:
         }
         return i;
     }
-    [[nodiscard]] auto find_best_axis(const BVHNode& node) const
-        -> BVHBestAxisResult
+    [[nodiscard]] auto find_best_axis(const BVHNode& node) const -> BVHBestAxisResult
     {
         BVHBestAxisResult best = {-1, 0, 1e30f};
 
@@ -222,8 +219,7 @@ private:
         }
         return best;
     }
-    [[nodiscard]] float evaluate_sah(const BVHNode& node, int axis,
-                                     float pos) const noexcept
+    [[nodiscard]] float evaluate_sah(const BVHNode& node, int axis, float pos) const noexcept
     {
         // determine triangle counts and bounds for this split candidate
         AABB leftBox, rightBox;
@@ -247,8 +243,7 @@ private:
             }
         }
         float left_area = leftBox.area(), right_area = rightBox.area();
-        float cost =
-            (float)leftCount * left_area + (float)rightCount * right_area;
+        float cost = (float)leftCount * left_area + (float)rightCount * right_area;
         return cost > 0 ? cost : 1e30f;
     }
 };

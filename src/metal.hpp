@@ -29,14 +29,12 @@ public:
     glm::vec3 albedo;
     float fuzz;
 
-    metal(glm::vec3 albedo, float f)
-        : albedo(std::move(albedo)), fuzz(std::min(f, 1.f)){};
+    metal(glm::vec3 albedo, float f) : albedo(std::move(albedo)), fuzz(std::min(f, 1.f)){};
 
-    virtual bool scatter(const ray& r_in, const hit_record& rec,
-                         glm::vec3& attenutation, ray& scattered) const override
+    virtual bool scatter(const ray& r_in, const hit_record& rec, glm::vec3& attenutation,
+                         ray& scattered) const override
     {
-        glm::vec3 reflected =
-            glm::reflect(glm::normalize(r_in.direction), rec.normal);
+        glm::vec3 reflected = glm::reflect(glm::normalize(r_in.direction), rec.normal);
         scattered = ray(rec.p, reflected + fuzz * glm::ballRand(1.f));
         attenutation = albedo;
 

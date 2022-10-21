@@ -26,8 +26,7 @@ public:
 
     void construct() { bvh.build(); }
 
-    virtual bool hit(const ray& r, float t_min, float t_max,
-                     hit_record& rec) const override;
+    virtual bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const override;
 
     virtual glm::vec3 centroid() const override;
 

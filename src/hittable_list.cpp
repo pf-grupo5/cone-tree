@@ -16,8 +16,7 @@
 
 #include "hittable_list.hpp"
 
-bool hittable_list::hit(const ray& r, float t_min, float t_max,
-                        hit_record& rec) const
+bool hittable_list::hit(const ray& r, float t_min, float t_max, hit_record& rec) const
 {
     bool hit_anything = false;
     float closest_so_far = t_max;

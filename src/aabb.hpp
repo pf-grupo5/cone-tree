@@ -18,8 +18,7 @@ struct AABB
         return e.x * e.y + e.y * e.z + e.z * e.x;
     }
 
-    [[nodiscard]] float intersection_time(const ray& ray,
-                                          const hit_record& hit) const
+    [[nodiscard]] float intersection_time(const ray& ray, const hit_record& hit) const
     {
         auto t_min = (min - ray.origin) / ray.direction;
         auto t_max = (max - ray.origin) / ray.direction;

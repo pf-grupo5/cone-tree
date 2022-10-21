@@ -24,8 +24,7 @@ AABB hittable_bvh::bounding_box() const
     return output;
 }
 
-bool hittable_bvh::hit(const ray& r, float t_min, float t_max,
-                       hit_record& rec) const
+bool hittable_bvh::hit(const ray& r, float t_min, float t_max, hit_record& rec) const
 {
     return bvh.hit(r, t_min, t_max, rec);
 }

@@ -30,8 +30,8 @@ public:
 
     lambertian(glm::vec3 albedo) : albedo(albedo){};
 
-    virtual bool scatter(const ray&, const hit_record& rec,
-                         glm::vec3& attenutation, ray& scattered) const override
+    virtual bool scatter(const ray&, const hit_record& rec, glm::vec3& attenutation,
+                         ray& scattered) const override
     {
         glm::vec3 scatter_direction = rec.normal + glm::sphericalRand(1.f);
 

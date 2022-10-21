@@ -30,8 +30,7 @@ private:
     glm::vec3 lower_left_corner;
 
 public:
-    camera(float viewport_height, float viewport_width,
-           float focal_length = 1.f)
+    camera(float viewport_height, float viewport_width, float focal_length = 1.f)
         : origin(0.f, 0.f, 0.f), horizontal(viewport_width, 0.f, 0.f),
           vertical(0.f, viewport_height, 0.f),
           lower_left_corner(origin - horizontal / 2.f - vertical / 2.f -
@@ -39,8 +38,7 @@ public:
 
     ray get_ray(float u, float v) const
     {
-        return {origin,
-                lower_left_corner + u * horizontal + v * vertical - origin};
+        return {origin, lower_left_corner + u * horizontal + v * vertical - origin};
     }
 };
 
