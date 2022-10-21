@@ -7,14 +7,14 @@
 #include <string_view>
 #include <vector>
 
-#include "lambertian.hpp"
-#include "material.hpp"
-#include "metal.hpp"
+#include "material/lambertian.hpp"
+#include "material/material.hpp"
+#include "material/metal.hpp"
 
-#include "sphere.hpp"
-#include "triangle.h"
+#include "object/sphere.hpp"
+#include "object/triangle.hpp"
 
-#include "scene.hpp"
+#include "scene/scene.hpp"
 
 using MaterialList = std::vector<std::shared_ptr<material>>;
 using ObjectList = std::vector<std::unique_ptr<hittable>>;

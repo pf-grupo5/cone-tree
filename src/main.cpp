@@ -24,19 +24,19 @@
 #include <glm/gtx/compatibility.hpp>
 #include <glm/vec3.hpp>
 
-#include "camera.hpp"
-#include "hittable.hpp"
-#include "hittable_bvh.hpp"
-#include "hittable_list.hpp"
-#include "lambertian.hpp"
 #include "loader.hpp"
-#include "metal.hpp"
+#include "material/lambertian.hpp"
+#include "material/metal.hpp"
+#include "object/hittable.hpp"
+#include "object/sphere.hpp"
+#include "object/triangle.hpp"
 #include "print.hpp"
-#include "ray.hpp"
-#include "rtweekend.hpp"
-#include "scene.hpp"
-#include "sphere.hpp"
-#include "triangle.h"
+#include "rtx/camera.hpp"
+#include "rtx/ray.hpp"
+#include "rtx/rtweekend.hpp"
+#include "scene/scene.hpp"
+#include "scene/scene_bvh.hpp"
+#include "scene/scene_list.hpp"
 
 glm::vec3 ray_color(const ray& r, const scene& world, int depth)
 {
@@ -83,7 +83,7 @@ int main(int argc, char* argv[])
     //    auto material_right = std::make_shared<metal>(glm::vec3(0.8f, 0.6f, 0.2f), 1.f);
 
     // World
-    hittable_bvh world;
+    scene_bvh world;
     load_scene(argv[1], world);
     world.freeze();
 

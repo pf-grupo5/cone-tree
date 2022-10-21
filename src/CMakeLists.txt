@@ -15,11 +15,12 @@
 # along with cone-tree.  If not, see <http://www.gnu.org/licenses/>.
 
 target_sources(${PROJECT_NAME}
-	PRIVATE
-		main.cpp
-		sphere.cpp
-		hittable_list.cpp
-	    hittable_bvh.cpp
-	    camera.cpp
-)
+    PRIVATE
+    main.cpp
+    object/sphere.cpp
+    object/triangle.cpp
+    scene/scene_list.cpp
+    scene/scene_bvh.cpp
+    rtx/camera.cpp
+    )
 

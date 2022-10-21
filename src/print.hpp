@@ -21,7 +21,7 @@
 #include <glm/exponential.hpp>
 #include <glm/vec3.hpp>
 
-#include "camera.hpp"
+#include "rtx/camera.hpp"
 
 template <>
 struct fmt::formatter<glm::vec3> : fmt::formatter<int>
