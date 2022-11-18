@@ -72,9 +72,6 @@ static float cost(float PL, float PR, int NL, int NR);
 
 static bool stopSplitting(int N, float minCv);
 
-static std::unique_ptr<KDTreeNode> build(const std::vector<int>& objectIds, const AABB& aabb,
-                                         int depth);
-
 // TODO: Use SAH
 static SAHResult SAH(const SplitPlane& p, const AABB& V, int NL, int NR, int NP);
 
@@ -156,6 +153,7 @@ static SplitResult findPlane(const std::vector<int>& T, const AABB& V, int depth
             NP = 0;
         }
     }
+    return bestSplit;
 }
 
 static ObjectSplit sortTriangles(const std::vector<int>& T, const SplitPlane& p,
@@ -345,4 +343,3 @@ SAHResult SAH(const SplitPlane& p, const AABB& V, int NL, int NR, int NP)
     else
         return {CPR, PlaneSide::RIGHT};
 }
-std::unique_ptr<KDTreeNode> build(const std::vector<int>& objectIds, const AABB& aabb, int depth) {}

@@ -28,6 +28,7 @@
 
 #include "scene/scene_bvh.hpp"
 #include "scene/scene_list.hpp"
+#include "scene/scene_kd6.hpp"
 
 #include "loader.hpp"
 #include "print.hpp"
@@ -67,7 +68,7 @@ int main(int argc, char* argv[])
     bool stdout_tty = isatty(STDOUT_FILENO);
 
     // World
-    scene_list world;
+    scene_kd6 world;
     load_scene(argv[1], world);
 
     Timer timer;
