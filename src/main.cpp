@@ -67,9 +67,13 @@ int main(int argc, char* argv[])
     bool stdout_tty = isatty(STDOUT_FILENO);
 
     // World
-    scene_bvh world;
+    scene_list world;
     load_scene(argv[1], world);
+
+    Timer timer;
+    timer.reset();
     world.freeze();
+    fmt::print(stderr, "Freeze: {}s\n", timer.elapsed());
 
     // Image
     const float aspect_ratio = 16.f / 9.f;
@@ -77,14 +81,15 @@ int main(int argc, char* argv[])
     const int image_height = (float)image_width / aspect_ratio;
     const int samples_per_pixel = 50;
     const int max_depth = 50;
-    camera cam = camera::pointing(glm::vec3(-1.f, 0.f, -2.f), glm::vec3(0.f, 0.f, 0.f),
+//    camera cam = camera::pointing(glm::vec3(-1.f, 0.f, -2.f), glm::vec3(0.f, 0.f, 0.f),
+        camera cam = camera::pointing(glm::vec3(0, 0, 1), glm::vec3(0.f, 0.f, -1.f),
                                   2 * glm::atan(1.f), aspect_ratio, 1.0f);
 
     fmt::print("P3\n{} {}\n255\n", image_width, image_height);
 
     std::vector<glm::vec3> image(image_width * image_height);
-    Timer timer;
 
+    timer.reset();
     for (int j = image_height - 1; j >= 0; --j)
     {
         for (int i = 0; i < image_width; ++i)
@@ -100,7 +105,7 @@ int main(int argc, char* argv[])
     }
 
     double t = timer.elapsed();
-    fmt::print(stderr, "Elapsed time: {}s\n", t);
+    fmt::print(stderr, "Elapsed time: {}ms\n", 1000.f * t);
     for (int j = image_height - 1; j >= 0; --j) {
         for (int i = 0; i < image_width; ++i) {
             fmt::print("{}\n", sampled_color(image[i + j * image_width], samples_per_pixel));

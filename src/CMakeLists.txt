@@ -21,6 +21,8 @@ target_sources(${PROJECT_NAME}
     object/triangle.cpp
     scene/scene_list.cpp
     scene/scene_bvh.cpp
+    scene/scene_kd6.cpp
     rtx/camera.cpp
+    kd/kd6.cpp
     )
 

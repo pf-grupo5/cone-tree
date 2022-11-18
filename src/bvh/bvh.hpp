@@ -16,8 +16,8 @@
 
 #pragma once
 
+#include "../math/aabb.hpp"
 #include "../object/hittable.hpp"
-#include "aabb.hpp"
 #include <vector>
 
 struct BVHNode
@@ -54,13 +54,9 @@ public:
     {
         auto n = (int)objects.size();
         triIdx = std::make_unique<int[]>(n);
-        //        triIdx = std::vector<int>(n);
         centroid = std::make_unique<glm::vec3[]>(n);
-        //        centroid = std::vector<glm::vec3>(n);
         aabb = std::make_unique<AABB[]>(n);
-        //        aabb = std::vector<AABB>(n);
         bvhNode = std::make_unique<BVHNode[]>(n * 2);
-        //        bvhNode = std::vector<BVHNode>(n * 2);
 
         for (int i = 0; i < n; i++)
         {
@@ -117,8 +113,8 @@ public:
             }
             const BVHNode* child1 = &bvhNode[node->leftFirst];
             const BVHNode* child2 = &bvhNode[node->leftFirst + 1];
-            float dist1 = child1->aabb.intersection_time(ray, hit.t);
-            float dist2 = child2->aabb.intersection_time(ray, hit.t);
+            float dist1 = child1->aabb.intersection_time(ray, min_time, hit.t).first;
+            float dist2 = child2->aabb.intersection_time(ray, min_time, hit.t).first;
             if (dist1 > dist2)
             {
                 std::swap(dist1, dist2);

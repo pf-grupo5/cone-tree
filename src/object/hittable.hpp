@@ -16,7 +16,7 @@
 
 #pragma once
 
-#include "../bvh/aabb.hpp"
+#include "../math/aabb.hpp"
 #include "../rtx/hit_record.hpp"
 #include "../rtx/ray.hpp"
 #include <glm/geometric.hpp>
