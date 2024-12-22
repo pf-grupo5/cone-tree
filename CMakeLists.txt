@@ -59,6 +59,11 @@ target_link_libraries(${PROJECT_NAME}
 		rply
 )
 
+target_compile_definitions(${PROJECT_NAME}
+	PRIVATE
+		GLM_ENABLE_EXPERIMENTAL
+)
+
 # Default flags
 if(UNIX)
 	if(NOT (DEFINED ENV{CFLAGS} OR CMAKE_C_FLAGS))
